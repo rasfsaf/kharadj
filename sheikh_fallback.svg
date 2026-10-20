@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffd700" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#ffd700" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="skinGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffdfba"/>
+      <stop offset="100%" stop-color="#e0ac69"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff2a3"/>
+      <stop offset="50%" stop-color="#ffd700"/>
+      <stop offset="100%" stop-color="#b8860b"/>
+    </linearGradient>
+    <pattern id="keffiyehPattern" width="12" height="12" patternUnits="userSpaceOnUse">
+      <rect width="12" height="12" fill="#ffffff"/>
+      <path d="M0,0 L12,12 M12,0 L0,12" stroke="#d32f2f" stroke-width="2.5"/>
+      <rect x="3" y="3" width="6" height="6" fill="#b71c1c"/>
+    </pattern>
+  </defs>
+
+  <!-- Golden Aura Background -->
+  <circle cx="200" cy="200" r="180" fill="url(#bgGlow)"/>
+  <circle cx="200" cy="200" r="170" fill="none" stroke="#ffd700" stroke-width="3" stroke-dasharray="10 6" opacity="0.6"/>
+
+  <!-- Thobe (White Arab Robe) -->
+  <path d="M 120 280 L 80 400 L 320 400 L 280 280 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="3"/>
+  <!-- Gold Embroidered Robe Collar -->
+  <path d="M 170 270 L 200 340 L 230 270 Z" fill="url(#goldGrad)" stroke="#b8860b" stroke-width="2"/>
+  <circle cx="200" cy="300" r="4" fill="#1e293b"/>
+  <circle cx="200" cy="320" r="4" fill="#1e293b"/>
+
+  <!-- Huge Chunky Gold Chain -->
+  <path d="M 140 275 Q 200 370 260 275" fill="none" stroke="url(#goldGrad)" stroke-width="10" stroke-linecap="round"/>
+  <!-- Gold Medallion ($ / د.إ) -->
+  <circle cx="200" cy="365" r="22" fill="url(#goldGrad)" stroke="#78350f" stroke-width="2"/>
+  <text x="200" y="373" font-size="20" font-family="'Montserrat', sans-serif" font-weight="900" fill="#451a03" text-anchor="middle">د.إ</text>
+
+  <!-- Neck -->
+  <rect x="175" y="230" width="50" height="50" fill="url(#skinGrad)" rx="10"/>
+
+  <!-- Keffiyeh Back Drapes (Red-White cloth) -->
+  <path d="M 90 140 C 70 200 70 280 110 320 C 130 290 135 240 140 200 Z" fill="url(#keffiyehPattern)" stroke="#b71c1c" stroke-width="2"/>
+  <path d="M 310 140 C 330 200 330 280 290 320 C 270 290 265 240 260 200 Z" fill="url(#keffiyehPattern)" stroke="#b71c1c" stroke-width="2"/>
+
+  <!-- Head Base -->
+  <ellipse cx="200" cy="180" rx="65" ry="75" fill="url(#skinGrad)"/>
+
+  <!-- Ears -->
+  <ellipse cx="135" cy="180" rx="12" ry="18" fill="#e0ac69"/>
+  <ellipse cx="265" cy="180" rx="12" ry="18" fill="#e0ac69"/>
+
+  <!-- Stylish Arab Beard & Mustache -->
+  <path d="M 140 185 C 140 265 170 275 200 275 C 230 275 260 265 260 185 C 250 200 235 210 220 210 C 205 210 200 200 200 200 C 200 200 195 210 180 210 C 165 210 150 200 140 185 Z" fill="#18181b"/>
+  <!-- Mustache -->
+  <path d="M 165 195 Q 200 215 235 195 Q 200 185 165 195 Z" fill="#18181b"/>
+
+  <!-- Big Radiant Smile & Teeth -->
+  <path d="M 172 195 Q 200 225 228 195 Z" fill="#fff" stroke="#18181b" stroke-width="2"/>
+  <path d="M 175 198 Q 200 220 225 198" fill="none" stroke="#e2e8f0" stroke-width="2"/>
+  <!-- Gold Tooth Sparkle -->
+  <rect x="202" y="196" width="6" height="8" fill="url(#goldGrad)" rx="1"/>
+  <polygon points="212,192 214,198 220,200 214,202 212,208 210,202 204,200 210,198" fill="#fff" opacity="0.9"/>
+
+  <!-- Nose -->
+  <path d="M 197 165 L 195 185 L 205 185 Z" fill="#d97706" opacity="0.4"/>
+
+  <!-- LEFT EYE (Open, Joyful) -->
+  <ellipse cx="168" cy="155" rx="14" ry="10" fill="#fff"/>
+  <circle cx="170" cy="155" r="7" fill="#3b2d18"/>
+  <circle cx="172" cy="152" r="3" fill="#fff"/>
+  <!-- Left Eyebrow (Expressive arch) -->
+  <path d="M 152 142 Q 170 132 185 140" fill="none" stroke="#18181b" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- RIGHT EYE (Playfully Winking 😉) -->
+  <path d="M 215 156 Q 232 144 246 156" fill="none" stroke="#18181b" stroke-width="5" stroke-linecap="round"/>
+  <!-- Wink Sparkle -->
+  <polygon points="248,145 251,152 258,154 251,156 248,163 245,156 238,154 245,152" fill="#ffd700"/>
+  <!-- Right Eyebrow -->
+  <path d="M 215 138 Q 232 130 248 142" fill="none" stroke="#18181b" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Keffiyeh Top Hood -->
+  <path d="M 130 145 C 130 90 270 90 270 145 C 275 140 280 130 280 120 C 275 60 125 60 120 120 C 120 130 125 140 130 145 Z" fill="url(#keffiyehPattern)" stroke="#b71c1c" stroke-width="2"/>
+
+  <!-- Black Agal (Double Ring Cord with Gold Accents) -->
+  <ellipse cx="200" cy="98" rx="72" ry="18" fill="none" stroke="#18181b" stroke-width="16"/>
+  <ellipse cx="200" cy="112" rx="74" ry="18" fill="none" stroke="#27272a" stroke-width="14"/>
+  <!-- Gold Agal Clamps -->
+  <rect x="180" y="88" width="12" height="34" fill="url(#goldGrad)" rx="3"/>
+  <rect x="210" y="88" width="12" height="34" fill="url(#goldGrad)" rx="3"/>
+
+  <!-- HAND GIVING A PROMINENT THUMBS UP 👍 (Foreground) -->
+  <g transform="translate(40, -10)">
+    <!-- Arm coming from right -->
+    <path d="M 330 330 L 290 260 L 250 290 L 290 380 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="3"/>
+    
+    <!-- Huge Shiny Gold Rolex Watch on Wrist -->
+    <rect x="268" y="270" width="28" height="18" fill="url(#goldGrad)" rx="4" stroke="#78350f" stroke-width="2"/>
+    <circle cx="282" cy="279" r="7" fill="#00e676" stroke="#b8860b" stroke-width="1.5"/>
+
+    <!-- Hand & Fist -->
+    <ellipse cx="260" cy="250" rx="26" ry="22" fill="url(#skinGrad)" stroke="#b45309" stroke-width="2"/>
+
+    <!-- Fingers in fist -->
+    <path d="M 245 238 C 255 238 275 238 275 248 C 275 258 255 258 245 258" fill="url(#skinGrad)" stroke="#b45309" stroke-width="2"/>
+    <path d="M 243 252 C 255 252 273 252 273 262 C 273 270 252 270 243 270" fill="url(#skinGrad)" stroke="#b45309" stroke-width="2"/>
+
+    <!-- Giant Thumb UP -->
+    <path d="M 252 245 C 248 220 242 175 260 170 C 278 165 280 200 274 235 Z" fill="url(#skinGrad)" stroke="#b45309" stroke-width="3"/>
+    <!-- Thumbnail with shine -->
+    <ellipse cx="263" cy="182" rx="7" ry="9" fill="#fef08a" stroke="#d97706" stroke-width="1.5"/>
+    <path d="M 261 178 Q 263 175 265 178" stroke="#fff" stroke-width="2" fill="none"/>
+
+    <!-- Big Gold Ring with Diamond on Index finger -->
+    <ellipse cx="270" cy="245" rx="5" ry="7" fill="url(#goldGrad)"/>
+    <polygon points="275,245 278,241 282,245 278,249" fill="#00e676"/>
+
+    <!-- Sparkle on Thumb -->
+    <polygon points="278,160 282,170 292,172 282,176 278,186 274,176 264,172 274,170" fill="#ffd700"/>
+  </g>
+</svg>

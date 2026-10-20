@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ВЫ ПОЛУЧИЛИ ХАРАДЖ! +1000 ГУРИЙ 🕌 💰</title>
+  
+  <!-- OpenGraph Metadata for sharing -->
+  <meta property="og:title" content="ВЫ ПОЛУЧИЛИ ХАРАДЖ! +1000 ГУРИЙ!">
+  <meta property="og:description" content="Официальное зачисление миллиардов халяль-динаров и 1000 гурий от Великого Султаната. Заберите свой харадж!">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon Emoji -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👑</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Particle / Confetti Canvas -->
+  <canvas id="fx-canvas"></canvas>
+
+  <!-- Top Arabic Pattern Bar -->
+  <div class="arabic-pattern-bar"></div>
+
+  <!-- Rofl Marquee Ticker -->
+  <div class="ticker-bar">
+    <div class="ticker-content">
+      <span class="ticker-item"><span class="badge">НЕФТЬ BRENT</span> 999 999 $ <span class="up">▲ +420%</span></span>
+      <span class="ticker-item"><span class="badge">ВЕРБЛЮДЫ</span> 500 000 د.إ <span class="up">▲ +133.7%</span></span>
+      <span class="ticker-item"><span class="badge">НОВОСТИ</span> 🐪 ВЕРБЛЮДЫ В ДУБАЕ ПРЕВЫСИЛИ СКОРОСТЬ ЗВУКА</span>
+      <span class="ticker-item"><span class="badge">СЛУЖБА ДОСТАВКИ</span> 🚀 РАКЕТА-БАРАКЕТА ДОСТАВИЛА ШАУРМУ В ЛОНДОН ЗА 3 СЕКУНДЫ</span>
+      <span class="ticker-item"><span class="badge">СТАТУС</span> 💰 ХАРАДЖ ВЫПЛАЧЕН В ПОЛНОМ ОБЪЕМЕ ВСЕМ ХАБИБИ</span>
+      <span class="ticker-item"><span class="badge">МЕЖДУНАРОДНОЕ</span> 🇿🇲 ПРАВИТЕЛЬСТВО ЗАМБИИ ОБЪЯВИЛО ДЕНЬ БЛАГОДАРНОСТИ</span>
+      <span class="ticker-item"><span class="badge">РАЙСКИЕ САДЫ</span> 🧕 1000 ГУРИЙ ОЖИДАЮТ В ШАТРАХ</span>
+      <span class="ticker-item"><span class="badge">УКАЗ ЭМИРА</span> 👑 ВСЕ РАБОТНИКИ ПЕРЕХОДЯТ НА 0-ЧАСОВОЙ РАБОЧИЙ ДЕНЬ</span>
+    </div>
+  </div>
+
+  <!-- Sound Toggle Floating Button -->
+  <button id="sound-toggle" class="sound-toggle" aria-label="Включить/выключить звук">
+    🔊 ЗВУК: ВКЛ
+  </button>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Main Container -->
+  <div class="container">
+
+    <!-- Header -->
+    <header class="site-header">
+      <div class="bismillah-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+      <div class="royal-badge">
+        <span>✨</span> ОФИЦИАЛЬНОЕ УВЕДОМЛЕНИЕ ВЕЛИКОГО СУЛТАНАТА ДУБАЙ-ИНВЕСТ <span>✨</span>
+      </div>
+    </header>
+
+    <!-- HERO SECTION (BEFORE CLAIM) -->
+    <section id="hero-box" class="hero-box">
+      <h1 class="gold-title-glitch">ВЫ ПОЛУЧИЛИ ХАРАДЖ!</h1>
+      <div class="hero-subtitle">
+        <span class="highlight-gold">+ 1 000 000 000 ХАЛЯЛЬ-ДИНАРОВ</span> 
+        <br>
+        <span class="highlight-green">🧕 + 1000 ГУРИЙ В ПОДАРОК! 🧕</span>
+      </div>
+      <p class="hero-desc">
+        Поздравляем, о многоуважаемый шейх! Караван верблюдов прибыл к вашему дворцу. 
+        Нефтяные скважины бьют ключом, золотые слитки выгружены у ворот, а райские сады готовы к вашему визиту. 
+        Харадж начислен на ваш персональный золотой счет без процентов, комиссий и харама!
+      </p>
+
+      <div class="claim-btn-wrapper">
+        <button id="btn-claim" class="claim-btn">
+          <span>👑</span> ЗАБРАТЬ ХАРАДЖ <span>💰</span>
+        </button>
+      </div>
+
+      <div class="claim-disclaimer">
+        * Нажимая «ЗАБРАТЬ», вы подтверждаете наличие как минимум одного золотого кальяна и готовность пить шафранный чай.
+      </div>
+    </section>
+
+    <!-- SHEIKH REVEAL ZONE (AFTER CLAIM) -->
+    <div id="sheikh-reveal-zone">
+
+      <!-- Sheikh Spotlight Card -->
+      <section class="sheikh-spotlight">
+        <div class="royal-badge" style="background: rgba(0, 230, 118, 0.2); border-color: var(--emerald); color: var(--emerald);">
+          👑 ОДОБРЕНО ЛИЧНО ВЕРХОВНЫМ ШЕЙХОМ 👑
+        </div>
+
+        <div class="sheikh-character-wrapper">
+          <!-- Arab Sheikh Image / Graphic -->
+          <div id="sheikh-graphic-container">
+            <img 
+              id="sheikh-avatar-img" 
+              src="arab_sheikh.png" 
+              alt="Араб показывает палец вверх и подмигивает"
+              class="sheikh-svg"
+              onerror="this.onerror=null; this.src='sheikh_fallback.svg';"
+              style="object-fit: contain; border-radius: 24px;"
+            >
+          </div>
+        </div>
+
+        <div style="text-align: center;">
+          <div class="speech-bubble">
+            «МАШАЛЛАХ, БРАТИШКА! ДЕНЬГИ НА БАЗЕ! ЖИВИ КАК СУЛТАН! 👍😉»
+          </div>
+        </div>
+      </section>
+
+      <!-- WALLET & ASSET CARDS -->
+      <div class="wallet-grid">
+        <!-- Balance Card -->
+        <div class="wallet-card">
+          <div class="wallet-card-header">
+            <span>КОШЕЛЕК «ЭМИР-ГОЛД»</span>
+            <span class="wallet-card-icon">💰</span>
+          </div>
+          <div id="wallet-balance-num" class="wallet-card-value">
+            777 420 000 000 د.إ
+          </div>
+          <div class="wallet-card-sub">Халяль-Динары на основном счету</div>
+          <div class="badge-tag">СТАТУС: БЕЗЛИМИТ</div>
+        </div>
+
+        <!-- Houris Card -->
+        <div class="wallet-card">
+          <div class="wallet-card-header">
+            <span>РАЙСКИЙ ДЕПОЗИТ</span>
+            <span class="wallet-card-icon">🧕</span>
+          </div>
+          <div class="wallet-card-value green">
+            1 000 Гурий
+          </div>
+          <div class="wallet-card-sub">В наличии в персональных садах Эдема</div>
+          <div class="badge-tag">100% ВЕЧНАЯ КРАСОТА</div>
+        </div>
+
+        <!-- Oil Card -->
+        <div class="wallet-card">
+          <div class="wallet-card-header">
+            <span>НЕФТЯНОЙ РЕЗЕРВ</span>
+            <span class="wallet-card-icon">🛢️</span>
+          </div>
+          <div class="wallet-card-value">
+            ∞ Баррелей
+          </div>
+          <div class="wallet-card-sub">Сорт «Dubai Royal Sweet Crude»</div>
+          <div class="badge-tag">ДЛЯ ДЖАКУЗИ И БАССЕЙНА</div>
+        </div>
+
+        <!-- Status Card -->
+        <div class="wallet-card">
+          <div class="wallet-card-header">
+            <span>РАНГ В СУЛТАНАТЕ</span>
+            <span class="wallet-card-icon">👑</span>
+          </div>
+          <div class="wallet-card-value green">
+            ЛЮТЫЙ ШЕЙХ
+          </div>
+          <div class="wallet-card-sub">Уровень уважения: 999 999 999+</div>
+          <div class="badge-tag">ХАЛЯЛЬ: 146%</div>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE SPENDING CLICKER -->
+      <section class="section-box">
+        <div class="section-title">
+          <h2><span>💸</span> СПУСТИТЬ ЕЩЁ НЕФТЕДОЛЛАРОВ НА СУЕТУ</h2>
+          <span class="section-badge">ИНТЕРАКТИВНЫЙ ТРАТОМАТ</span>
+        </div>
+        <p style="color: #94a3b8; margin-bottom: 15px; font-size: 0.95rem;">
+          Деньги не должны лежать без дела! Выбирай, на что потратить пару сотен миллионов прямо сейчас:
+        </p>
+        <div class="clicker-grid">
+          <button id="btn-buy-donkey" class="spend-action-btn">
+            <span class="spend-action-icon">🫏</span>
+            <span>Купить ещё осла 4x4</span>
+            <span class="spend-action-price">-45 000 000 د.إ</span>
+          </button>
+
+          <button id="btn-buy-rocket" class="spend-action-btn">
+            <span class="spend-action-icon">🚀</span>
+            <span>Ракета-Баракета</span>
+            <span class="spend-action-price">-280 000 000 د.إ</span>
+          </button>
+
+          <button id="btn-fund-zambia" class="spend-action-btn">
+            <span class="spend-action-icon">🇿🇲</span>
+            <span>Задонатить в Замбию</span>
+            <span class="spend-action-price">-320 000 000 د.إ</span>
+          </button>
+
+          <button id="btn-pay-zakat" class="spend-action-btn">
+            <span class="spend-action-icon">🤲</span>
+            <span>Выплатить Закят</span>
+            <span class="spend-action-price">-150 000 000 د.إ</span>
+          </button>
+
+          <button id="btn-buy-shawarma" class="spend-action-btn">
+            <span class="spend-action-icon">🌯</span>
+            <span>Золотая Шаурма</span>
+            <span class="spend-action-price">-2 500 000 د.إ</span>
+          </button>
+
+          <button id="btn-buy-oil" class="spend-action-btn">
+            <span class="spend-action-icon">🛢️</span>
+            <span>100 баррелей в бассейн</span>
+            <span class="spend-action-price">-190 000 000 د.إ</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- EXPENSES & TRANSACTION HISTORY -->
+      <section class="section-box">
+        <div class="section-title">
+          <h2><span>📜</span> ИСТОРИЯ ОПЕРАЦИЙ / ТРАТЫ ЗА СЕГОДНЯ</h2>
+          <span class="section-badge">ВСЕГО ТРАТ: 12 ПОЗИЦИЙ</span>
+        </div>
+        <div id="expenses-container" class="expense-list">
+          <!-- Rendered dynamically via app.js -->
+        </div>
+      </section>
+
+      <!-- HALAL SCANNER & ARABIC WISDOM WIDGETS -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+        <!-- Halal Scanner -->
+        <section class="section-box halal-scanner-box">
+          <div style="font-size: 2.2rem;">📡</div>
+          <h3 style="font-size: 1.3rem; font-weight: 800; color: #fff;">СПУТНИКОВЫЙ ХАЛЯЛЬ-СКАНЕР</h3>
+          <p style="font-size: 0.85rem; color: #94a3b8;">
+            Проверка баланса и трат через орбитальную станцию в Дубае
+          </p>
+          <button id="btn-scan-halal" class="scanner-btn">
+            🔍 СКАНИРОВАТЬ НА ХАЛЯЛЬ
+          </button>
+          <div id="scan-result" class="scan-result-card"></div>
+        </section>
+
+        <!-- Wisdom Generator -->
+        <section class="section-box">
+          <div style="text-align: center;">
+            <div style="font-size: 2.2rem;">📜</div>
+            <h3 style="font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 6px;">МУДРОСТЬ ШЕЙХА</h3>
+            <p style="font-size: 0.85rem; color: #94a3b8;">Наставления мудрейших эмиров древности</p>
+          </div>
+          <div class="wisdom-box">
+            <div id="wisdom-text" class="wisdom-quote">
+              «Кто рано встает — тот первую нефтяную скважину бурит.»
+            </div>
+            <button id="btn-next-wisdom" class="wisdom-btn">
+              ✨ ПОЛУЧИТЬ СВЕЖУЮ МУДРОСТЬ ✨
+            </button>
+          </div>
+        </section>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="bismillah-text" style="font-size: 1.3rem;">الحمد لله</div>
+      <p>Официальный сайт Программы Выплаты Хараджа и 1000 Гурий © 2026</p>
+      <p>Разработано с благословения бедуинов для GitHub Pages | 100% Без харама</p>
+    </footer>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
