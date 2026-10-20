@@ -719,6 +719,11 @@ body {
   position: relative;
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  user-select: none;
+}
+
+.spend-action-btn * {
+  pointer-events: none;
 }
 
 .spend-action-btn::after {
@@ -731,6 +736,7 @@ body {
   background: radial-gradient(circle at center, rgba(255, 215, 0, 0.15), transparent 70%);
   opacity: 0;
   transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 .spend-action-btn:hover {

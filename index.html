@@ -12,7 +12,7 @@
 
   <!-- Favicon Emoji -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👑</text></svg>">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
 
@@ -173,62 +173,62 @@
         <p style="color: #94a3b8; margin-bottom: 15px; font-size: 0.95rem;">
           Деньги не должны лежать без дела! Выбирай, на что потратить пару сотен миллионов прямо сейчас:
         </p>
-        <div class="clicker-grid">
-          <button id="btn-buy-donkey" class="spend-action-btn">
+        <div id="clicker-grid" class="clicker-grid">
+          <button id="btn-buy-donkey" class="spend-action-btn" data-action="donkey">
             <span class="spend-action-icon">🫏</span>
             <span>Купить ещё осла 4x4</span>
             <span class="spend-action-price">-45 000 000 د.إ</span>
           </button>
 
-          <button id="btn-buy-rocket" class="spend-action-btn">
+          <button id="btn-buy-rocket" class="spend-action-btn" data-action="rocket">
             <span class="spend-action-icon">🚀</span>
             <span>Ракета-Баракета</span>
             <span class="spend-action-price">-280 000 000 د.إ</span>
           </button>
 
-          <button id="btn-fund-zambia" class="spend-action-btn">
+          <button id="btn-fund-zambia" class="spend-action-btn" data-action="zambia">
             <span class="spend-action-icon">🇿🇲</span>
             <span>Задонатить в Замбию</span>
             <span class="spend-action-price">-320 000 000 د.إ</span>
           </button>
 
-          <button id="btn-pay-zakat" class="spend-action-btn">
+          <button id="btn-pay-zakat" class="spend-action-btn" data-action="zakat">
             <span class="spend-action-icon">🤲</span>
             <span>Выплатить Закят</span>
             <span class="spend-action-price">-150 000 000 د.إ</span>
           </button>
 
-          <button id="btn-buy-shawarma" class="spend-action-btn">
+          <button id="btn-buy-shawarma" class="spend-action-btn" data-action="shawarma">
             <span class="spend-action-icon">🌯</span>
             <span>Золотая Шаурма</span>
             <span class="spend-action-price">-2 500 000 د.إ</span>
           </button>
 
-          <button id="btn-buy-oil" class="spend-action-btn">
+          <button id="btn-buy-oil" class="spend-action-btn" data-action="oil">
             <span class="spend-action-icon">🛢️</span>
             <span>100 баррелей в бассейн</span>
             <span class="spend-action-price">-190 000 000 د.إ</span>
           </button>
 
-          <button id="btn-buy-falcon" class="spend-action-btn">
+          <button id="btn-buy-falcon" class="spend-action-btn" data-action="falcon">
             <span class="spend-action-icon">🦅</span>
             <span>Золотой сокол Тесла</span>
             <span class="spend-action-price">-110 000 000 د.إ</span>
           </button>
 
-          <button id="btn-wash-tower" class="spend-action-btn">
+          <button id="btn-wash-tower" class="spend-action-btn" data-action="tower">
             <span class="spend-action-icon">✨</span>
             <span>Помыть Бурдж-Халифу</span>
             <span class="spend-action-price">-225 000 000 د.إ</span>
           </button>
 
-          <button id="btn-buy-island" class="spend-action-btn">
+          <button id="btn-buy-island" class="spend-action-btn" data-action="island">
             <span class="spend-action-icon">🏝️</span>
             <span>Остров-Шаурма</span>
             <span class="spend-action-price">-850 000 000 د.إ</span>
           </button>
 
-          <button id="btn-brew-coffee" class="spend-action-btn">
+          <button id="btn-brew-coffee" class="spend-action-btn" data-action="coffee">
             <span class="spend-action-icon">☕</span>
             <span>10 000 л кофе с кардамоном</span>
             <span class="spend-action-price">-75 000 000 د.إ</span>
@@ -291,6 +291,6 @@
 
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>

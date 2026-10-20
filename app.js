@@ -665,10 +665,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Live Spending Clickers
-  const btnBuyDonkey = document.getElementById('btn-buy-donkey');
-  if (btnBuyDonkey) {
-    btnBuyDonkey.addEventListener('click', () => {
+  // Master Spend Handler for all lots
+  function handleSpendAction(action) {
+    if (!action) return;
+    const act = action.toLowerCase();
+    if (act.includes('donkey')) {
       donkeysCount++;
       spendMoney(
         '🫏', 
@@ -677,12 +678,7 @@ document.addEventListener('DOMContentLoaded', () => {
         45000000, 
         'donkey'
       );
-    });
-  }
-
-  const btnBuyRocket = document.getElementById('btn-buy-rocket');
-  if (btnBuyRocket) {
-    btnBuyRocket.addEventListener('click', () => {
+    } else if (act.includes('rocket')) {
       rocketsCount++;
       spendMoney(
         '🚀', 
@@ -691,12 +687,7 @@ document.addEventListener('DOMContentLoaded', () => {
         280000000, 
         'rocket'
       );
-    });
-  }
-
-  const btnZambia = document.getElementById('btn-fund-zambia');
-  if (btnZambia) {
-    btnZambia.addEventListener('click', () => {
+    } else if (act.includes('zambia')) {
       zambiaGrants++;
       spendMoney(
         '🇿🇲', 
@@ -705,12 +696,7 @@ document.addEventListener('DOMContentLoaded', () => {
         320000000, 
         'cash'
       );
-    });
-  }
-
-  const btnZakat = document.getElementById('btn-pay-zakat');
-  if (btnZakat) {
-    btnZakat.addEventListener('click', () => {
+    } else if (act.includes('zakat')) {
       spendMoney(
         '🤲', 
         'Дополнительный Закят', 
@@ -718,12 +704,7 @@ document.addEventListener('DOMContentLoaded', () => {
         150000000, 
         'cash'
       );
-    });
-  }
-
-  const btnShawarma = document.getElementById('btn-buy-shawarma');
-  if (btnShawarma) {
-    btnShawarma.addEventListener('click', () => {
+    } else if (act.includes('shawarma')) {
       spendMoney(
         '🌯', 
         'Золотая Шаурма с шафраном', 
@@ -731,12 +712,7 @@ document.addEventListener('DOMContentLoaded', () => {
         2500000, 
         'cash'
       );
-    });
-  }
-
-  const btnOil = document.getElementById('btn-buy-oil');
-  if (btnOil) {
-    btnOil.addEventListener('click', () => {
+    } else if (act.includes('oil')) {
       spendMoney(
         '🛢️', 
         '100 Баррелей нефти Brent', 
@@ -744,13 +720,7 @@ document.addEventListener('DOMContentLoaded', () => {
         190000000, 
         'water'
       );
-    });
-  }
-
-  // 4 Brand-New Interactive Spending Clickers
-  const btnBuyFalcon = document.getElementById('btn-buy-falcon');
-  if (btnBuyFalcon) {
-    btnBuyFalcon.addEventListener('click', () => {
+    } else if (act.includes('falcon')) {
       falconsCount++;
       spendMoney(
         '🦅',
@@ -759,12 +729,7 @@ document.addEventListener('DOMContentLoaded', () => {
         110000000,
         'falcon'
       );
-    });
-  }
-
-  const btnWashTower = document.getElementById('btn-wash-tower');
-  if (btnWashTower) {
-    btnWashTower.addEventListener('click', () => {
+    } else if (act.includes('tower')) {
       towerWashCount++;
       spendMoney(
         '✨',
@@ -773,12 +738,7 @@ document.addEventListener('DOMContentLoaded', () => {
         225000000,
         'water'
       );
-    });
-  }
-
-  const btnBuyIsland = document.getElementById('btn-buy-island');
-  if (btnBuyIsland) {
-    btnBuyIsland.addEventListener('click', () => {
+    } else if (act.includes('island')) {
       islandsCount++;
       spendMoney(
         '🏝️',
@@ -787,12 +747,7 @@ document.addEventListener('DOMContentLoaded', () => {
         850000000,
         'cash'
       );
-    });
-  }
-
-  const btnBrewCoffee = document.getElementById('btn-brew-coffee');
-  if (btnBrewCoffee) {
-    btnBrewCoffee.addEventListener('click', () => {
+    } else if (act.includes('coffee')) {
       coffeesCount++;
       spendMoney(
         '☕',
@@ -801,6 +756,49 @@ document.addEventListener('DOMContentLoaded', () => {
         75000000,
         'water'
       );
+    }
+  }
+
+  // Delegated click handler on the entire clicker grid
+  const clickerGrid = document.getElementById('clicker-grid');
+  if (clickerGrid) {
+    clickerGrid.addEventListener('click', (e) => {
+      const btn = e.target.closest('.spend-action-btn');
+      if (btn) {
+        const action = btn.getAttribute('data-action') || btn.id;
+        handleSpendAction(action);
+      }
     });
   }
+
+  // Backup direct listeners on document
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.spend-action-btn');
+    if (btn && !clickerGrid) {
+      const action = btn.getAttribute('data-action') || btn.id;
+      handleSpendAction(action);
+    }
+  });
+
+  // Direct element listeners
+  [
+    { id: 'btn-buy-donkey', act: 'donkey' },
+    { id: 'btn-buy-rocket', act: 'rocket' },
+    { id: 'btn-fund-zambia', act: 'zambia' },
+    { id: 'btn-pay-zakat', act: 'zakat' },
+    { id: 'btn-buy-shawarma', act: 'shawarma' },
+    { id: 'btn-buy-oil', act: 'oil' },
+    { id: 'btn-buy-falcon', act: 'falcon' },
+    { id: 'btn-wash-tower', act: 'tower' },
+    { id: 'btn-buy-island', act: 'island' },
+    { id: 'btn-brew-coffee', act: 'coffee' }
+  ].forEach(item => {
+    const el = document.getElementById(item.id);
+    if (el) {
+      el.onclick = (e) => {
+        e.stopPropagation();
+        handleSpendAction(item.act);
+      };
+    }
+  });
 });
