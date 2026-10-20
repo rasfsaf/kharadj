@@ -1,5 +1,5 @@
 // ============================================================
-// ХАРАДЖ И 1000 ГУРИЙ — CORE APP ENGINE
+// ХАРАДЖ И 1000 ГУРИЙ — CORE APP ENGINE 2.0
 // 100% Client-Side Pure Vanilla JS (No external libraries)
 // ============================================================
 
@@ -8,19 +8,35 @@ class ArabSoundEngine {
   constructor() {
     this.ctx = null;
     this.enabled = true;
+    this.noiseBuffer = null;
   }
 
   init() {
     if (!this.ctx) {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       this.ctx = new AudioCtx();
+      this.createNoiseBuffer();
     }
     if (this.ctx.state === 'suspended') {
       this.ctx.resume();
     }
   }
 
-  // Play Middle Eastern Oud / Phrygian scale fanfare
+  createNoiseBuffer() {
+    const bufferSize = this.ctx.sampleRate * 2;
+    this.noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+    const output = this.noiseBuffer.getChannelData(0);
+    let lastOut = 0.0;
+    // Pink noise generation for smoother, pleasant non-harsh sound
+    for (let i = 0; i < bufferSize; i++) {
+      const white = Math.random() * 2 - 1;
+      output[i] = (lastOut + (0.02 * white)) / 1.02;
+      lastOut = output[i];
+      output[i] *= 3.5;
+    }
+  }
+
+  // Play Middle Eastern Oud / Phrygian scale fanfare (Warm, melodic, no harsh peaks)
   playArabFanfare() {
     if (!this.enabled) return;
     this.init();
@@ -28,34 +44,33 @@ class ArabSoundEngine {
     
     // Notes: D4, Eb4, F#4, G4, A4, Bb4, C#5, D5 (Hijaz / Arabic scale)
     const melody = [
-      { f: 293.66, t: 0.0, d: 0.16 }, // D4
-      { f: 311.13, t: 0.16, d: 0.16 }, // Eb4
-      { f: 369.99, t: 0.32, d: 0.22 }, // F#4
-      { f: 392.00, t: 0.54, d: 0.22 }, // G4
-      { f: 440.00, t: 0.76, d: 0.22 }, // A4
-      { f: 415.30, t: 0.98, d: 0.20 }, // Ab
-      { f: 369.99, t: 1.18, d: 0.22 }, // F#
-      { f: 311.13, t: 1.40, d: 0.25 }, // Eb
-      { f: 293.66, t: 1.65, d: 0.55 }, // D4 final
-      { f: 587.33, t: 2.20, d: 0.80 }  // High D5 victory
+      { f: 293.66, t: 0.0, d: 0.18 }, // D4
+      { f: 311.13, t: 0.18, d: 0.18 }, // Eb4
+      { f: 369.99, t: 0.36, d: 0.22 }, // F#4
+      { f: 392.00, t: 0.58, d: 0.22 }, // G4
+      { f: 440.00, t: 0.80, d: 0.24 }, // A4
+      { f: 415.30, t: 1.04, d: 0.22 }, // Ab
+      { f: 369.99, t: 1.26, d: 0.24 }, // F#
+      { f: 311.13, t: 1.50, d: 0.28 }, // Eb
+      { f: 293.66, t: 1.78, d: 0.55 }, // D4 final
+      { f: 587.33, t: 2.30, d: 0.85 }  // High D5 victory
     ];
 
     melody.forEach(note => {
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
       
-      // Plucked string emulation
-      osc.type = 'sawtooth';
+      // Warm triangle/sine blend for plucked acoustic feel
+      osc.type = 'triangle';
       osc.frequency.setValueAtTime(note.f, now + note.t);
 
-      // Filter for warm oud sound
       const filter = this.ctx.createBiquadFilter();
       filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(1400, now + note.t);
-      filter.frequency.exponentialRampToValueAtTime(300, now + note.t + note.d);
+      filter.frequency.setValueAtTime(1100, now + note.t);
+      filter.frequency.exponentialRampToValueAtTime(320, now + note.t + note.d);
 
       gain.gain.setValueAtTime(0, now + note.t);
-      gain.gain.linearRampToValueAtTime(0.28, now + note.t + 0.02);
+      gain.gain.linearRampToValueAtTime(0.22, now + note.t + 0.02);
       gain.gain.exponentialRampToValueAtTime(0.001, now + note.t + note.d);
 
       osc.connect(filter);
@@ -67,86 +82,157 @@ class ArabSoundEngine {
     });
   }
 
-  // Cash Register "Ka-ching!"
+  // Cash Register "Ka-ching!" (Clean metallic bells)
   playCashSound() {
     if (!this.enabled) return;
     this.init();
     const now = this.ctx.currentTime;
 
-    // Metallic chime 1
-    const osc1 = this.ctx.createOscillator();
-    const gain1 = this.ctx.createGain();
-    osc1.type = 'sine';
-    osc1.frequency.setValueAtTime(1975.53, now); // B6
-    gain1.gain.setValueAtTime(0.3, now);
-    gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
-    osc1.connect(gain1);
-    gain1.connect(this.ctx.destination);
-    osc1.start(now);
-    osc1.stop(now + 0.6);
+    const chime = (freq, start, dur, vol) => {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now + start);
+      gain.gain.setValueAtTime(0, now + start);
+      gain.gain.linearRampToValueAtTime(vol, now + start + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + start + dur);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now + start);
+      osc.stop(now + start + dur);
+    };
 
-    // Metallic chime 2
-    const osc2 = this.ctx.createOscillator();
-    const gain2 = this.ctx.createGain();
-    osc2.type = 'sine';
-    osc2.frequency.setValueAtTime(2637.02, now + 0.1); // E7
-    gain2.gain.setValueAtTime(0.35, now + 0.1);
-    gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.7);
-    osc2.connect(gain2);
-    gain2.connect(this.ctx.destination);
-    osc2.start(now + 0.1);
-    osc2.stop(now + 0.7);
+    chime(1760.00, 0.0, 0.45, 0.18); // A6
+    chime(2349.32, 0.08, 0.65, 0.22); // D7
+    chime(2793.83, 0.16, 0.75, 0.25); // F7
   }
 
-  // Rocket Launch Barraketa sound
+  // Reworked Rocket Launch: Deep cinematic rumble & soft whoosh (NO ear-piercing screech!)
   playRocketSound() {
     if (!this.enabled) return;
     this.init();
     const now = this.ctx.currentTime;
 
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(150, now);
-    osc.frequency.exponentialRampToValueAtTime(800, now + 0.4);
-    osc.frequency.exponentialRampToValueAtTime(50, now + 0.9);
+    // 1. Deep Sub-Bass Rumble (Gentle cinematic low-end)
+    const subOsc = this.ctx.createOscillator();
+    const subGain = this.ctx.createGain();
+    subOsc.type = 'sine';
+    subOsc.frequency.setValueAtTime(85, now);
+    subOsc.frequency.exponentialRampToValueAtTime(32, now + 1.2);
 
-    gain.gain.setValueAtTime(0.3, now);
-    gain.gain.linearRampToValueAtTime(0.4, now + 0.3);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
+    subGain.gain.setValueAtTime(0, now);
+    subGain.gain.linearRampToValueAtTime(0.24, now + 0.08);
+    subGain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
 
-    osc.connect(gain);
-    gain.connect(this.ctx.destination);
-    osc.start(now);
-    osc.stop(now + 0.9);
+    subOsc.connect(subGain);
+    subGain.connect(this.ctx.destination);
+    subOsc.start(now);
+    subOsc.stop(now + 1.2);
+
+    // 2. Soft Velvet Noise Whoosh (Low-passed pink noise, zero harsh highs)
+    if (this.noiseBuffer) {
+      const noiseSource = this.ctx.createBufferSource();
+      noiseSource.buffer = this.noiseBuffer;
+
+      const filter = this.ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(450, now);
+      filter.frequency.linearRampToValueAtTime(220, now + 0.6);
+      filter.frequency.exponentialRampToValueAtTime(80, now + 1.3);
+
+      const noiseGain = this.ctx.createGain();
+      noiseGain.gain.setValueAtTime(0, now);
+      noiseGain.gain.linearRampToValueAtTime(0.16, now + 0.12);
+      noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 1.3);
+
+      noiseSource.connect(filter);
+      filter.connect(noiseGain);
+      noiseGain.connect(this.ctx.destination);
+
+      noiseSource.start(now);
+      noiseSource.stop(now + 1.3);
+    }
   }
 
-  // Donkey Bray sound (synthesized humor)
+  // Donkey sound (Funny, warm, rounded)
   playDonkeySound() {
     if (!this.enabled) return;
     this.init();
     const now = this.ctx.currentTime;
 
-    // "Heeeee" (high) -> "Haaaw" (low)
     const osc = this.ctx.createOscillator();
+    const filter = this.ctx.createBiquadFilter();
     const gain = this.ctx.createGain();
+
     osc.type = 'triangle';
-    osc.frequency.setValueAtTime(580, now);
-    osc.frequency.linearRampToValueAtTime(820, now + 0.25);
-    osc.frequency.linearRampToValueAtTime(260, now + 0.6);
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(750, now);
+
+    osc.frequency.setValueAtTime(480, now);
+    osc.frequency.linearRampToValueAtTime(720, now + 0.22);
+    osc.frequency.linearRampToValueAtTime(240, now + 0.55);
 
     gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(0.35, now + 0.05);
-    gain.gain.linearRampToValueAtTime(0.2, now + 0.3);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.7);
+    gain.gain.linearRampToValueAtTime(0.22, now + 0.05);
+    gain.gain.linearRampToValueAtTime(0.15, now + 0.25);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.65);
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.65);
+  }
+
+  // Golden Falcon screech (Majestic, soft high whistle)
+  playFalconSound() {
+    if (!this.enabled) return;
+    this.init();
+    const now = this.ctx.currentTime;
+
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(1100, now);
+    osc.frequency.linearRampToValueAtTime(1650, now + 0.15);
+    osc.frequency.linearRampToValueAtTime(1200, now + 0.4);
+
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.14, now + 0.05);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
 
     osc.connect(gain);
     gain.connect(this.ctx.destination);
     osc.start(now);
-    osc.stop(now + 0.7);
+    osc.stop(now + 0.45);
   }
 
-  // Sci-fi Scanner Halal Sound
+  // Coffee / Spa Water Sound (Pleasant bubbler trickle)
+  playWaterSound() {
+    if (!this.enabled) return;
+    this.init();
+    const now = this.ctx.currentTime;
+
+    [420, 560, 680, 840].forEach((freq, idx) => {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now + idx * 0.07);
+      osc.frequency.exponentialRampToValueAtTime(freq * 1.3, now + idx * 0.07 + 0.12);
+
+      gain.gain.setValueAtTime(0, now + idx * 0.07);
+      gain.gain.linearRampToValueAtTime(0.12, now + idx * 0.07 + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.16);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now + idx * 0.07);
+      osc.stop(now + idx * 0.07 + 0.16);
+    });
+  }
+
+  // Halal Scanner Sound (Pleasant soft sci-fi chime)
   playScanSound() {
     if (!this.enabled) return;
     this.init();
@@ -154,21 +240,21 @@ class ArabSoundEngine {
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(300, now);
-    osc.frequency.exponentialRampToValueAtTime(1200, now + 0.4);
-    gain.gain.setValueAtTime(0.2, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+    osc.frequency.setValueAtTime(440, now);
+    osc.frequency.exponentialRampToValueAtTime(880, now + 0.35);
+    gain.gain.setValueAtTime(0.15, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
     osc.connect(gain);
     gain.connect(this.ctx.destination);
     osc.start(now);
-    osc.stop(now + 0.5);
+    osc.stop(now + 0.4);
   }
 }
 
 const soundEngine = new ArabSoundEngine();
 
 // ============================================================
-// Confetti & Falling Gold/Camel/Rocket Canvas Engine
+// Confetti & Falling Particles Canvas Engine
 // ============================================================
 class ConfettiEngine {
   constructor(canvasId) {
@@ -176,7 +262,7 @@ class ConfettiEngine {
     this.ctx = this.canvas.getContext('2d');
     this.particles = [];
     this.running = false;
-    this.emojis = ['💰', '💵', '💎', '🐪', '🛢️', '🚀', '🌯', '✨', '👑'];
+    this.emojis = ['💰', '💵', '💎', '🐪', '🛢️', '🚀', '🌯', '✨', '👑', '🦅', '☕', '🏝️'];
     this.resize();
     window.addEventListener('resize', () => this.resize());
   }
@@ -191,14 +277,14 @@ class ConfettiEngine {
     const h = this.canvas.height;
     for (let i = 0; i < count; i++) {
       this.particles.push({
-        x: w * 0.5 + (Math.random() - 0.5) * 200,
-        y: h * 0.4 + (Math.random() - 0.5) * 100,
-        vx: (Math.random() - 0.5) * 18,
-        vy: -Math.random() * 16 - 4,
-        gravity: 0.35,
+        x: w * 0.5 + (Math.random() - 0.5) * 250,
+        y: h * 0.38 + (Math.random() - 0.5) * 120,
+        vx: (Math.random() - 0.5) * 16,
+        vy: -Math.random() * 14 - 3,
+        gravity: 0.32,
         rotation: Math.random() * 360,
-        rotationSpeed: (Math.random() - 0.5) * 12,
-        size: Math.random() * 22 + 16,
+        rotationSpeed: (Math.random() - 0.5) * 10,
+        size: Math.random() * 20 + 16,
         emoji: this.emojis[Math.floor(Math.random() * this.emojis.length)],
         opacity: 1,
         life: 1
@@ -250,99 +336,131 @@ class ConfettiEngine {
 let confettiEngine = null;
 
 // ============================================================
-// State & Data
+// State & 16+ Hilarious Arabic Halal Expenses
 // ============================================================
 let currentBalance = 777420000000;
 let hourisCount = 1000;
 let donkeysCount = 1;
 let rocketsCount = 1;
 let zambiaGrants = 1;
+let falconsCount = 1;
+let islandsCount = 1;
+let coffeesCount = 1;
+let towerWashCount = 1;
 
-// 12 Hilarious Pre-populated Expenses
+// 16 Hilarious Pre-populated Expenses (12 original + 4 brand-new Arabic Halal luxury items)
 const initialExpenses = [
+  {
+    icon: '🦅',
+    title: 'Золотой сокол с тепловизором и автопилотом',
+    desc: 'Спецверсия «Эмир Охотник», титановые когти с позолотой, питается исключительно филе перепёлок в шафране',
+    cost: 110000000,
+    time: '2 мин назад'
+  },
+  {
+    icon: '🏝️',
+    title: 'Персональный остров в форме Шаурмы',
+    desc: 'Насыпан в Персидском заливе за 48 часов, вертолетная площадка и 50 мангалов с мраморным барашком',
+    cost: 850000000,
+    time: '8 мин назад'
+  },
+  {
+    icon: '✨',
+    title: 'Омовение Бурдж-Халифы розовой водой с мускусом',
+    desc: 'Халяльный премиум-клининг: 100 000 литров родниковой воды, аромат победы слышно в соседнем эмирате',
+    cost: 225000000,
+    time: '14 мин назад'
+  },
+  {
+    icon: '☕',
+    title: 'Царская кофейная церемония на 10 000 литров',
+    desc: 'Сварен на горячем песке в джезве размером с трёхэтажный дом с бесплатной раздачей караванщикам',
+    cost: 75000000,
+    time: '19 мин назад'
+  },
   {
     icon: '🛢️',
     title: '50 баррелей сырой нефти для джакузи',
     desc: 'Омолаживающий спа-уход «Слеза Эмира» с ароматом свежего бензина АИ-100',
     cost: 95000000,
-    time: '4 мин назад'
+    time: '25 мин назад'
   },
   {
     icon: '🚀',
     title: 'Межконтинентальная Ракета-Баракета',
     desc: 'Класс «Машаллах-1» с отсеком для сверхбыстрой доставки горячей шаурмы в любую точку мира',
     cost: 280000000,
-    time: '11 мин назад'
+    time: '33 мин назад'
   },
   {
     icon: '🇿🇲',
     title: 'Профинансировать Замбию',
     desc: 'Экстренный транш правительству Замбии на закупку золотых бананов и верблюжьего молока',
     cost: 320000000,
-    time: '18 мин назад'
+    time: '41 мин назад'
   },
   {
     icon: '🫏',
     title: 'Боевой осёл «Desert Sport 4x4»',
     desc: 'Тонировка в круг, ксенон, прямоточный выхлоп, кожаный салон и турбонаддув на овсе',
     cost: 45000000,
-    time: '24 мин назад'
+    time: '49 мин назад'
   },
   {
     icon: '🤲',
     title: 'Заплатить Закят',
     desc: 'Халяльный налог на благоустройство караванов и бесплатный финиковый смузи бедуинам',
     cost: 150000000,
-    time: '32 мин назад'
+    time: '55 мин назад'
   },
   {
     icon: '💨',
     title: 'Золотой кальян с 5G и нейросетью',
     desc: 'Двойное яблоко с автоподжигом и встроенной голосовой моделью шейха-философа',
     cost: 18500000,
-    time: '39 мин назад'
+    time: '1 час назад'
   },
   {
     icon: '🐪',
     title: 'VIP-каршеринг белых верблюдов',
     desc: 'Тариф «Шейх Ультра»: белый верблюд с гидроусилителем поводьев и массажем обоих горбов',
     cost: 12000000,
-    time: '45 мин назад'
+    time: '1 час назад'
   },
   {
     icon: '⚽',
     title: 'Покупка ФК 4-го дивизиона Англии',
     desc: 'Клуб мгновенно переименован в ФК «Аль-Бирмингем», игрокам выданы позолоченные бутсы',
     cost: 400000000,
-    time: '52 мин назад'
+    time: '1 час назад'
   },
   {
     icon: '🌯',
     title: 'Царская Шаурма с золотом 999 пробы',
     desc: 'Завернута в натуральный шелковый лаваш с чесночным соусом из слез завистников',
     cost: 2500000,
-    time: '1 час назад'
+    time: '2 часа назад'
   },
   {
     icon: '🚙',
     title: 'Позолоченный Гелендваген с турбиной от Boeing',
     desc: 'Вместо обычных ковриков постелены персидские ковры ручной работы XVI века',
     cost: 650000000,
-    time: '1 час назад'
+    time: '2 часа назад'
   },
   {
     icon: '🏛️',
     title: 'Аренда Пирамиды Хеопса на субботу',
     desc: 'Чисто пожарить шашлыки из барашка с пацанами под дубайский фонк',
     cost: 500000000,
-    time: '2 часа назад'
+    time: '3 часа назад'
   },
   {
     icon: '🌪️',
     title: 'Взятка песчаной буре в Сахаре',
     desc: 'Чтобы дула строго в спину и приятно охлаждала во время соколиной охоты',
     cost: 30000000,
-    time: '2 часа назад'
+    time: '3 часа назад'
   }
 ];
 
@@ -353,10 +471,11 @@ const arabicWisdoms = [
   "«Не имей 100 рублей, а имей 1 000 000 000 халяль-динаров и 1000 гурий.»",
   "«Лучше плакать в золотом джакузи с нефтью, чем смеяться в переполненной маршрутке.»",
   "«Если жизнь подкидывает песок — продай его шейхам под строительство насыпного острова.»",
-  "«Ракета Баракета летит быстро, но харадж начисляется еще быстрее.»",
+  "«Ракета Баракета летит тихо и мощно, а харадж начисляется еще быстрее.»",
   "«Заплатил закят — спи спокойно, хабиби.»",
   "«Настоящий шейх никогда не спрашивает цену шаурмы с золотом.»",
-  "«Верблюд может идти без воды 2 недели, а шейх без стиля — ни секунды.»"
+  "«Верблюд может идти без воды 2 недели, а шейх без стиля — ни секунды.»",
+  "«Сокол видит далеко, но золотой баланс на счету виден ещё дальше.»"
 ];
 
 // Halal Scanner Verdicts
@@ -424,6 +543,8 @@ function spendMoney(icon, title, desc, cost, soundType = 'cash') {
   // Play Sound
   if (soundType === 'donkey') soundEngine.playDonkeySound();
   else if (soundType === 'rocket') soundEngine.playRocketSound();
+  else if (soundType === 'falcon') soundEngine.playFalconSound();
+  else if (soundType === 'water') soundEngine.playWaterSound();
   else soundEngine.playCashSound();
 
   // Burst confetti
@@ -566,7 +687,7 @@ document.addEventListener('DOMContentLoaded', () => {
       spendMoney(
         '🚀', 
         `Ракета-Баракета (Запуск #${rocketsCount})`, 
-        'Успешный запуск в стратосферу, доставляет шаурму шейху на орбиту', 
+        'Мягкий старт гиперзвуковой доставки шаурмы, звук согревает душу', 
         280000000, 
         'rocket'
       );
@@ -621,7 +742,64 @@ document.addEventListener('DOMContentLoaded', () => {
         '100 Баррелей нефти Brent', 
         'Залиты в личный бассейн для ночного заплыва', 
         190000000, 
+        'water'
+      );
+    });
+  }
+
+  // 4 Brand-New Interactive Spending Clickers
+  const btnBuyFalcon = document.getElementById('btn-buy-falcon');
+  if (btnBuyFalcon) {
+    btnBuyFalcon.addEventListener('click', () => {
+      falconsCount++;
+      spendMoney(
+        '🦅',
+        `Золотой сокол Тесла #${falconsCount}`,
+        'Автопилот последнего поколения, парит над дубайскими небоскребами',
+        110000000,
+        'falcon'
+      );
+    });
+  }
+
+  const btnWashTower = document.getElementById('btn-wash-tower');
+  if (btnWashTower) {
+    btnWashTower.addEventListener('click', () => {
+      towerWashCount++;
+      spendMoney(
+        '✨',
+        `Омовение Бурдж-Халифы (Клининг #${towerWashCount})`,
+        'Розовая вода и мускус смыли пыль пустыни, сверкает на всё ОАЭ',
+        225000000,
+        'water'
+      );
+    });
+  }
+
+  const btnBuyIsland = document.getElementById('btn-buy-island');
+  if (btnBuyIsland) {
+    btnBuyIsland.addEventListener('click', () => {
+      islandsCount++;
+      spendMoney(
+        '🏝️',
+        `Остров-Шаурма (Остров #${islandsCount})`,
+        'Насыпан новый песчаный остров, включены 50 мангалов и фонтаны',
+        850000000,
         'cash'
+      );
+    });
+  }
+
+  const btnBrewCoffee = document.getElementById('btn-brew-coffee');
+  if (btnBrewCoffee) {
+    btnBrewCoffee.addEventListener('click', () => {
+      coffeesCount++;
+      spendMoney(
+        '☕',
+        `10 000 литров кофе с кардамоном (Варка #${coffeesCount})`,
+        'Джезва в 3 этажа закипела, аромат разносится по всему султанату',
+        75000000,
+        'water'
       );
     });
   }

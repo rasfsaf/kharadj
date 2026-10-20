@@ -366,32 +366,65 @@ body {
 
 /* ARAB SHEIKH SHOWCASE CARD */
 .sheikh-spotlight {
-  background: radial-gradient(circle at center, #261e05 0%, #10121c 100%);
+  background: radial-gradient(circle at center, #2c2005 0%, #0d0f1a 100%);
   border: 3px solid var(--gold-primary);
   border-radius: 28px;
   padding: 35px 25px;
   text-align: center;
   position: relative;
-  box-shadow: 0 0 60px rgba(255, 215, 0, 0.4), inset 0 0 30px rgba(255, 215, 0, 0.2);
+  box-shadow: 
+    0 0 60px rgba(255, 215, 0, 0.4),
+    inset 0 0 40px rgba(255, 215, 0, 0.2);
   margin-bottom: 35px;
+  overflow: hidden;
+}
+
+.sheikh-spotlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #ffd700, #00e676, #ffd700, transparent);
+  animation: shineLine 4s linear infinite;
+}
+
+@keyframes shineLine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 .sheikh-character-wrapper {
   position: relative;
   display: inline-block;
   margin: 10px auto 20px;
+  width: 100%;
+  max-width: 620px;
 }
 
 .sheikh-avatar-img {
   width: 100%;
-  max-width: 580px;
+  max-width: 620px;
   height: auto;
-  border-radius: 20px;
-  border: 3px solid var(--gold-primary);
-  box-shadow: 0 10px 40px rgba(255, 215, 0, 0.45), 0 0 25px rgba(0, 0, 0, 0.8);
-  animation: sheikhFloat 3.5s ease-in-out infinite;
+  border-radius: 22px;
+  border: 4px solid var(--gold-primary);
+  box-shadow: 
+    0 0 0 6px rgba(255, 215, 0, 0.25),
+    0 15px 45px rgba(0, 0, 0, 0.9),
+    0 0 50px rgba(255, 215, 0, 0.5);
+  animation: sheikhFloat 3.8s ease-in-out infinite;
   display: block;
-  margin: 10px auto 15px;
+  margin: 12px auto 18px;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+}
+
+.sheikh-avatar-img:hover {
+  transform: scale(1.025);
+  box-shadow: 
+    0 0 0 8px rgba(255, 215, 0, 0.45),
+    0 20px 60px rgba(0, 0, 0, 0.95),
+    0 0 75px rgba(255, 215, 0, 0.8);
 }
 
 .sheikh-svg {
@@ -663,49 +696,76 @@ body {
 /* INTERACTIVE ACTION CLICKER (Спустить еще нефтедолларов) */
 .clicker-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 14px;
   margin-top: 20px;
 }
 
 .spend-action-btn {
-  background: linear-gradient(135deg, rgba(30, 24, 8, 0.9), rgba(18, 19, 30, 0.9));
+  background: linear-gradient(135deg, rgba(35, 26, 8, 0.92), rgba(18, 20, 32, 0.95));
   border: 1px solid rgba(255, 215, 0, 0.4);
-  border-radius: 16px;
-  padding: 14px;
+  border-radius: 18px;
+  padding: 16px 12px;
   color: #fff;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-family: var(--font-main);
   font-weight: 800;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
+  font-size: 0.92rem;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
   position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.spend-action-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(255, 215, 0, 0.15), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .spend-action-btn:hover {
-  transform: translateY(-3px) scale(1.02);
+  transform: translateY(-4px) scale(1.03);
   border-color: var(--gold-primary);
-  background: linear-gradient(135deg, rgba(50, 40, 10, 0.95), rgba(28, 30, 48, 0.95));
-  box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
+  background: linear-gradient(135deg, rgba(55, 42, 10, 0.98), rgba(28, 32, 52, 0.98));
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.35);
+}
+
+.spend-action-btn:hover::after {
+  opacity: 1;
 }
 
 .spend-action-btn:active {
-  transform: scale(0.96);
+  transform: scale(0.96) translateY(2px);
 }
 
 .spend-action-icon {
-  font-size: 2rem;
+  font-size: 2.2rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+  transition: transform 0.2s ease;
+}
+
+.spend-action-btn:hover .spend-action-icon {
+  transform: scale(1.15) rotate(-5deg);
 }
 
 .spend-action-price {
-  font-size: 0.8rem;
-  color: var(--ruby);
+  font-size: 0.82rem;
+  color: #ff5252;
   font-weight: 900;
+  background: rgba(255, 82, 82, 0.12);
+  border: 1px solid rgba(255, 82, 82, 0.3);
+  padding: 3px 8px;
+  border-radius: 8px;
 }
 
 /* HALAL SCANNER & WISDOM GENERATOR */
